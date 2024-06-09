@@ -4,4 +4,5 @@ using UnityEngine;
 public class SOPlayerStats : ScriptableObject {
 	public float BaseMoveSpeed;
 	public int BaseCoinAmount;
+	public float BaseDodgeChance;
 }

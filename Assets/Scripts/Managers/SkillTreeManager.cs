@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillTreeManager : MonoBehaviour
-{
+{	
 	public static SkillTreeManager instance;
+	
+	public Action NewSkillUnlocked;
 	
 	[SerializeField] Skill[] skills;
 	Dictionary<string, Skill> GeneralSkillTree; //Skill name / What skill do
@@ -25,7 +27,7 @@ public class SkillTreeManager : MonoBehaviour
 		
 		CreateSkills();
 	}
-	
+
 	void CreateSkills()
 	{
 		GeneralSkillTree = new();
@@ -51,55 +53,71 @@ public class SkillTreeManager : MonoBehaviour
 		}
 	}
 	
-	public void UnlockSkill(string skillName, Skill.Type skillType)
+	public int GetSkillPrice(string skillName, Skill.Type skillType)
 	{
-		bool unlocked;
 		switch(skillType)
 		{
 			case Skill.Type.GENERAL:
-			unlocked = GeneralSkillTree[skillName].TryUnlockSkill();
-			break;
+			return GeneralSkillTree[skillName].price;
 			
 			case Skill.Type.ARCHERY:
-			unlocked = ArcherySkillTree[skillName].TryUnlockSkill();
-			break;
+			return ArcherySkillTree[skillName].price;
 			
 			case Skill.Type.SWORDSMANSHIP:
-			unlocked = SwordsmanshipSkillTree[skillName].TryUnlockSkill();
-			break;
+			return SwordsmanshipSkillTree[skillName].price;
 			
 			default:
-			unlocked = false;
-			break;
+			return int.MaxValue;
 		}
 	}
 	
-	public Action SetReferenceToSkill(string skillName, Skill.Type skillType)
+	public bool UnlockSkill(string skillName, Skill.Type skillType)
 	{
-		Skill skill = null;
+		if(GetSkillPrice(skillName, skillType) <= GameManager.instance.pStats.coins)
+		{
+			bool unlocked;
+			switch(skillType)
+			{
+				case Skill.Type.GENERAL:
+				unlocked = GeneralSkillTree[skillName].TryUnlockSkill();
+				break;
+				
+				case Skill.Type.ARCHERY:
+				unlocked = ArcherySkillTree[skillName].TryUnlockSkill();
+				break;
+				
+				case Skill.Type.SWORDSMANSHIP:
+				unlocked = SwordsmanshipSkillTree[skillName].TryUnlockSkill();
+				break;
+				
+				default:
+				unlocked = false;
+				break;
+			}
+			if(unlocked)
+			{
+				NewSkillUnlocked?.Invoke();
+			}
+			return unlocked;
+		}
+		else return false;
+	}
+	
+	public bool IsUnlocked(string skillName, Skill.Type skillType)
+	{
 		switch(skillType)
 		{
 			case Skill.Type.GENERAL:
-			skill = GeneralSkillTree[skillName];
-			break;
+			return GeneralSkillTree[skillName].unlocked;
 			
 			case Skill.Type.ARCHERY:
-			skill = ArcherySkillTree[skillName];
-			break;
+			return ArcherySkillTree[skillName].unlocked;
 			
 			case Skill.Type.SWORDSMANSHIP:
-			skill = SwordsmanshipSkillTree[skillName];
-			break;
-		}
-		
-		if(skill != null)
-		{
-			return skill.skillEnabled;
-		}
-		else 
-		{
-			Debug.LogError("Invalid Skill Name!");
-			throw new Exception("Invalid Skill Name!");
+			return SwordsmanshipSkillTree[skillName].unlocked;
+			
+			default:
+			return false;
 		}
 	}
 }
