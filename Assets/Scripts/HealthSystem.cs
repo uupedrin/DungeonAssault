@@ -8,7 +8,7 @@ public class HealthSystem : MonoBehaviour
 	public Action OnDeath;
 	
 	[SerializeField] float maxHealth;
-	float currentHealth;
+	[SerializeField] float currentHealth;
 	
 	private void Awake()
 	{
@@ -30,5 +30,14 @@ public class HealthSystem : MonoBehaviour
 	public void SetNewMaxHealth(float maxHealth)
 	{
 		this.maxHealth = maxHealth;
+	}
+	public float HealthValue()
+	{
+		return currentHealth;
+	}
+
+	public float MaxHealth()
+	{
+		return maxHealth;
 	}
 }

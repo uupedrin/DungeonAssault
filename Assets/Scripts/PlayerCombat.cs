@@ -4,38 +4,57 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(HealthSystem))]
 public class PlayerCombat : MonoBehaviour
 {
+	[Header("Stats and Skills")]
+	public HealthSystem hSystem;
 	PlayerStats stats;
 	PlayerStats.DodgeType currentDodge;
-	//Skills
-	//General
+
+	[Header("Weapons and Bullet")]
 	bool hasRun;
-	bool hasSpin;
-	bool canUseSpin = true;
-	[SerializeField] float spinCooldown;
-	bool hasPrecision;
-	bool canUsePrecision = true;
-	[SerializeField] float precisionCooldown;
-	bool hasSwordBeam;
-	bool canUseBeam = true;
-	[SerializeField] float beamCooldown;
+	public GameObject bullet;
+	[SerializeField] float fireRatio;
+	bool canFire = true;
+	[SerializeField] Transform[] bulletSpawnpoints;
+	[SerializeField] Transform orientation;
+
 	
 	void Start()
 	{
+		GameManager.instance.pCombat = this;
 		stats = GetComponent<PlayerStats>();
 		SkillTreeManager.instance.NewSkillUnlocked += VerifyUnlocks;
+		GetComponent<HealthSystem>().OnDeath += OnPlayerDeath;
+		hSystem = GetComponent<HealthSystem>();
 	}
 	
 	private void OnDestroy()
 	{
 		SkillTreeManager.instance.NewSkillUnlocked -= VerifyUnlocks;
-	}
-	
+        GetComponent<HealthSystem>().OnDeath = OnPlayerDeath;
+    }
+
 	void Update()
 	{
 		GetSkillInputs();
+		if (Input.GetMouseButton(0) && canFire == true)
+		{
+			StartCoroutine(nameof(ShootCoroutine));
+		}
+
 	}
+
+	IEnumerator ShootCoroutine()
+	{
+		canFire = false;
+		Instantiate(bullet, bulletSpawnpoints[0].transform.position, orientation.rotation);
+		yield return new WaitForSeconds(fireRatio);
+		canFire = true;
+	}
+
+
 	
 	public void VerifyUnlocks()
 	{
@@ -50,14 +69,6 @@ public class PlayerCombat : MonoBehaviour
 		{
 			currentDodge = PlayerStats.DodgeType.Better;
 		}
-		stats.SetDodge(currentDodge);
-		
-		
-	}
-	void SwordBeam()
-	{
-		if(!canUseBeam) return;
-		//Beam logic
 	}
 	
 	void GetSkillInputs()
@@ -99,14 +110,38 @@ public class PlayerCombat : MonoBehaviour
 			}
 		}
 	}
+
+	void OnPlayerDeath()
+	{
+		GameManager.instance.uiManager.GetComponent<GameUI>().DeathScreen();
+	}
 	
 	private void OnCollisionEnter(Collision other)
 	{
 		//Harmfull Collisions
 		float dodgeOdds = Random.Range(0,100);
-		if(stats.currentDodgeChance > dodgeOdds) //Don't dodge
+		if(stats.currentDodgeChance < dodgeOdds) //Don't dodge
 		{
 			//Take hit
+			switch (other.gameObject.tag)
+			{
+				case "Enemy":
+					Debug.Log("entrando na tag Enemy");
+					hSystem.DecreaseHealth(1);
+					GameManager.instance.uiManager.GetComponent<GameUI>().HealthBarUpdate(hSystem.HealthValue());
+					Debug.Log("Está saindo do decrese health");
+					break;
+
+				case "EBullet":
+                    hSystem.DecreaseHealth(1);
+                    GameManager.instance.uiManager.GetComponent<GameUI>().HealthBarUpdate(hSystem.HealthValue());
+                    Destroy(other.gameObject);
+                    break;
+
+				case "Portal":
+					GameManager.instance.uiManager.GetComponent<GameUI>().VictoryScreen();
+					break;
+			}
 		}
 	}
 }

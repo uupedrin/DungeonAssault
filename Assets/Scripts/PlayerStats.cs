@@ -37,6 +37,7 @@ public class PlayerStats : MonoBehaviour
 	public void IncreaseCoins(int coinAmount)
 	{
 		coins += coinAmount;
+		if(coins < 0) coins = 0;
 	}
 	
 	public void DecreaseCoins(int coinAmount)

@@ -96,6 +96,7 @@ public class SkillTreeManager : MonoBehaviour
 			}
 			if(unlocked)
 			{
+				GameManager.instance.pStats.DecreaseCoins(GetSkillPrice(skillName, skillType));
 				NewSkillUnlocked?.Invoke();
 			}
 			return unlocked;

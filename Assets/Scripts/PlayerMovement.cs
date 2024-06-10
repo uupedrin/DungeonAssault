@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 	
 	void Start()
 	{
+		GameManager.instance.pMove = this;
 		rb = GetComponent<Rigidbody>();
 		rb.freezeRotation = true;
 		pStats = GetComponent<PlayerStats>();
