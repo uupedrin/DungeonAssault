@@ -23,7 +23,7 @@ public class EnemiesMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
-        agent.enabled = false;
+        if(eBehaviour == Behaviour.Archer)agent.enabled = false;
     }
     void Update()
     {

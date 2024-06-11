@@ -10,7 +10,6 @@ public class PlayerStats : MonoBehaviour
 	public enum DodgeType {None, Normal, Better}
 	public Action<Weapons> NewEquipedWeapon;
 	public Weapons equipedWeapon {get; private set;}
-	public int coins {get; private set;}
 	public float moveSpeed {get; private set;}
 	public float runMultiplyer;
 	public bool isRunning = false;
@@ -21,7 +20,6 @@ public class PlayerStats : MonoBehaviour
 	void Awake()
 	{
 		moveSpeed = baseStats.BaseMoveSpeed;
-		coins = baseStats.BaseCoinAmount;
 		currentDodgeChance = baseStats.BaseDodgeChance;
 	}
 	private void Start()
@@ -36,8 +34,9 @@ public class PlayerStats : MonoBehaviour
 	
 	public void IncreaseCoins(int coinAmount)
 	{
-		coins += coinAmount;
-		if(coins < 0) coins = 0;
+		GameManager.instance.coins += coinAmount;
+		if(GameManager.instance.coins < 0) GameManager.instance.coins = 0;
+		GameManager.instance.uiManager.GetComponent<GameUI>().UpdateCoinsText(GameManager.instance.coins);
 	}
 	
 	public void DecreaseCoins(int coinAmount)

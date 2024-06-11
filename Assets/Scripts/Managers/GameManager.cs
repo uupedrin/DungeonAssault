@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	public ExitPortals exitPortal;
 	public UIManager uiManager;
 	public PlayerStats pStats;
+	public int coins;
 	public PlayerCombat pCombat;
 	public bool isPaused = false;
 	bool gateOpen = false;
@@ -28,19 +29,19 @@ public class GameManager : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 	}
 
-    private void Start()
-    {
+	private void Start()
+	{
 		resetedCountDown = countDown;
-    }
+	}
 
-    public void Pause()
-    {
-        isPaused = !isPaused;
-        if (isPaused == true)
-            Time.timeScale = 0f;
-        else
-            Time.timeScale = 1f;
-    }
+	public void Pause()
+	{
+		isPaused = !isPaused;
+		if (isPaused == true)
+			Time.timeScale = 0f;
+		else
+			Time.timeScale = 1f;
+	}
 
 	public void Unpause()
 	{
@@ -50,16 +51,16 @@ public class GameManager : MonoBehaviour
 
 	public float PlayerMaxHealth()
 	{
-        return instance.pCombat.hSystem.MaxHealth();
-    }
+		return instance.pCombat.hSystem.MaxHealth();
+	}
 
-    public void Reset()
-    {
-        gateOpen = false;
+	public void Reset()
+	{
+		gateOpen = false;
 		countDown = resetedCountDown;
-    }
+	}
 
-    public void CountDown()
+	public void CountDown()
 	{
 		if (countDown <= 0 && gateOpen == false)
 		{
@@ -69,12 +70,12 @@ public class GameManager : MonoBehaviour
 		}else countDown -= Time.deltaTime;
 	}
 
-    private void Update()
-    {
+	private void Update()
+	{
 		if(instance.uiManager.SceneName() == "Game")
 		{
 			CountDown();
 			instance.uiManager.GetComponent<GameUI>().TimerUpdate(countDown);
 		}
-    }
+	}
 }

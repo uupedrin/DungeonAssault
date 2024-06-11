@@ -24,7 +24,7 @@ public class SkillTreeManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-		
+		DontDestroyOnLoad(gameObject);
 		CreateSkills();
 	}
 
@@ -73,7 +73,7 @@ public class SkillTreeManager : MonoBehaviour
 	
 	public bool UnlockSkill(string skillName, Skill.Type skillType)
 	{
-		if(GetSkillPrice(skillName, skillType) <= GameManager.instance.pStats.coins)
+		if(GetSkillPrice(skillName, skillType) <= GameManager.instance.coins)
 		{
 			bool unlocked;
 			switch(skillType)

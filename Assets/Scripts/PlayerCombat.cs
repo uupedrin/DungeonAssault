@@ -28,13 +28,14 @@ public class PlayerCombat : MonoBehaviour
 		SkillTreeManager.instance.NewSkillUnlocked += VerifyUnlocks;
 		GetComponent<HealthSystem>().OnDeath += OnPlayerDeath;
 		hSystem = GetComponent<HealthSystem>();
+		VerifyUnlocks();
 	}
 	
 	private void OnDestroy()
 	{
 		SkillTreeManager.instance.NewSkillUnlocked -= VerifyUnlocks;
-        GetComponent<HealthSystem>().OnDeath = OnPlayerDeath;
-    }
+		GetComponent<HealthSystem>().OnDeath = OnPlayerDeath;
+	}
 
 	void Update()
 	{
@@ -129,14 +130,14 @@ public class PlayerCombat : MonoBehaviour
 					Debug.Log("entrando na tag Enemy");
 					hSystem.DecreaseHealth(1);
 					GameManager.instance.uiManager.GetComponent<GameUI>().HealthBarUpdate(hSystem.HealthValue());
-					Debug.Log("Está saindo do decrese health");
+					Debug.Log("Estï¿½ saindo do decrese health");
 					break;
 
 				case "EBullet":
-                    hSystem.DecreaseHealth(1);
-                    GameManager.instance.uiManager.GetComponent<GameUI>().HealthBarUpdate(hSystem.HealthValue());
-                    Destroy(other.gameObject);
-                    break;
+					hSystem.DecreaseHealth(1);
+					GameManager.instance.uiManager.GetComponent<GameUI>().HealthBarUpdate(hSystem.HealthValue());
+					Destroy(other.gameObject);
+					break;
 
 				case "Portal":
 					GameManager.instance.uiManager.GetComponent<GameUI>().VictoryScreen();
