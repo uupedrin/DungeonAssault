@@ -9,6 +9,7 @@ public class GameUI : UIManager
 	[Header("Panels Management")]
 	public GameObject victoryPanel;
 	public GameObject defeatPanel;
+	public GameObject settingsPanel;
 
 	[Header("Text Management")]
 	public TextMeshProUGUI timerTxt;
@@ -77,5 +78,10 @@ public class GameUI : UIManager
 		float seconds = Mathf.FloorToInt(timer % 60);
 		float minutes = Mathf.FloorToInt(timer / 60);
 		timerTxt.text = string.Format("Time Until the Next Portal: {0:00}:{1:00}", minutes, seconds);
+	}
+	
+	public void ToggleSettings()
+	{
+		settingsPanel.SetActive(!settingsPanel.activeInHierarchy);
 	}
 }

@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour
 	public HealthSystem hSystem;
 	PlayerStats stats;
 	PlayerStats.DodgeType currentDodge;
+	int amountOfShots = 1;
 
 	[Header("Weapons and Bullet")]
 	bool hasRun;
@@ -40,17 +41,15 @@ public class PlayerCombat : MonoBehaviour
 	void Update()
 	{
 		GetSkillInputs();
-		if (Input.GetMouseButton(0) && canFire == true)
-		{
-			StartCoroutine(nameof(ShootCoroutine));
-		}
-
 	}
 
 	IEnumerator ShootCoroutine()
 	{
 		canFire = false;
-		Instantiate(bullet, bulletSpawnpoints[0].transform.position, orientation.rotation);
+		for (int i = 0; i < amountOfShots; i++)
+		{
+			Instantiate(bullet, bulletSpawnpoints[i].transform.position, orientation.rotation);
+		}
 		yield return new WaitForSeconds(fireRatio);
 		canFire = true;
 	}
@@ -70,34 +69,22 @@ public class PlayerCombat : MonoBehaviour
 		{
 			currentDodge = PlayerStats.DodgeType.Better;
 		}
+		if(SkillTreeManager.instance.IsUnlocked("MoreProjectiles", Skill.Type.ARCHERY))
+		{
+			amountOfShots = 2;
+		}
+		if(SkillTreeManager.instance.IsUnlocked("EvenMoreProjectiles", Skill.Type.ARCHERY))
+		{
+			amountOfShots = 3;
+		}
 	}
 	
 	void GetSkillInputs()
-	{		
-		if(Input.GetKeyDown(KeyCode.R)) //Special
+	{	
+		if (Input.GetMouseButton(0) && canFire == true) //Fire
 		{
-			switch (stats.equipedWeapon)
-			{
-				case PlayerStats.Weapons.SWORD:
-				
-				break;
-				case PlayerStats.Weapons.BOW:
-				break; 
-			}
-		}
-		
-		if(Input.GetKeyDown(KeyCode.Q)) //Special 2
-		{
-			switch (stats.equipedWeapon)
-			{
-				case PlayerStats.Weapons.SWORD:
-				
-				break;
-				case PlayerStats.Weapons.BOW:
-				
-				break; 	
-			}
-		}
+			StartCoroutine(nameof(ShootCoroutine));
+		}	
 		
 		if(hasRun)
 		{
