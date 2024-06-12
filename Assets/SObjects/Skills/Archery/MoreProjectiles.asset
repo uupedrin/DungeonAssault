@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillType: 1
   requirements: []
+  price: 25
+  unlocked: 1

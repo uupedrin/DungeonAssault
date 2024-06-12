@@ -109,13 +109,13 @@ public class SkillTreeManager : MonoBehaviour
 		switch(skillType)
 		{
 			case Skill.Type.GENERAL:
-			return GeneralSkillTree[skillName].unlocked;
+			return GeneralSkillTree[skillName].unlocked == true;
 			
 			case Skill.Type.ARCHERY:
-			return ArcherySkillTree[skillName].unlocked;
+			return ArcherySkillTree[skillName].unlocked == true;
 			
 			case Skill.Type.SWORDSMANSHIP:
-			return SwordsmanshipSkillTree[skillName].unlocked;
+			return SwordsmanshipSkillTree[skillName].unlocked == true;
 			
 			default:
 			return false;

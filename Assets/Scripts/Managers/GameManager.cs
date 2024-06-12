@@ -67,7 +67,8 @@ public class GameManager : MonoBehaviour
 			instance.exitPortal.OpenPortal();
 			instance.uiManager.GetComponent<GameUI>().PortalOpen();
 			gateOpen = true;
-		}else countDown -= Time.deltaTime;
+		}
+		else countDown -= Time.deltaTime;
 	}
 
 	private void Update()

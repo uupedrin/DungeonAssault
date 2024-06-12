@@ -15,3 +15,5 @@ MonoBehaviour:
   skillType: 0
   requirements:
   - {fileID: 11400000, guid: 4eae8d9df54bd2b49b6a671fad236ae3, type: 2}
+  price: 25
+  unlocked: 0

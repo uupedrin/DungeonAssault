@@ -36,7 +36,10 @@ public class PlayerStats : MonoBehaviour
 	{
 		GameManager.instance.coins += coinAmount;
 		if(GameManager.instance.coins < 0) GameManager.instance.coins = 0;
-		GameManager.instance.uiManager.GetComponent<GameUI>().UpdateCoinsText(GameManager.instance.coins);
+		if(GameManager.instance.uiManager.SceneName() == "Game")
+		{
+			GameManager.instance.uiManager.GetComponent<GameUI>().UpdateCoinsText(GameManager.instance.coins);
+		}
 	}
 	
 	public void DecreaseCoins(int coinAmount)

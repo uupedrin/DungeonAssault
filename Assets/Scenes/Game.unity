@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44194457, g: 0.49090576, b: 0.57085115, a: 1}
+  m_IndirectSpecularColor: {r: 0.44194412, g: 0.4909051, b: 0.5708498, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4618,7 +4618,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -11047,6 +11047,18 @@ PrefabInstance:
     - target: {fileID: 6446024345442130058, guid: 105e9bd026f6b7c4ba80e570ac65b72e, type: 3}
       propertyPath: runMultiplyer
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446024345442130058, guid: 105e9bd026f6b7c4ba80e570ac65b72e, type: 3}
+      propertyPath: dodgeChanceValue
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446024345442130058, guid: 105e9bd026f6b7c4ba80e570ac65b72e, type: 3}
+      propertyPath: currentDodgeChance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446024345442130058, guid: 105e9bd026f6b7c4ba80e570ac65b72e, type: 3}
+      propertyPath: betterDodgeChanceValue
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 7521306366380741210, guid: 105e9bd026f6b7c4ba80e570ac65b72e, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits

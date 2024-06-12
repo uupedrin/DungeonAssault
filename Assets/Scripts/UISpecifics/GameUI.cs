@@ -23,6 +23,11 @@ public class GameUI : UIManager
 	[Header("Images Management")]
 	public Image healthBar;
 
+	private void Start()
+	{
+		GameManager.instance.uiManager = this;
+		GameManager.instance.Reset();
+	}
 	public void TryUnlockSkill(SkillButtonInfo info)
 	{
 		SkillTreeManager.instance.UnlockSkill(info.SkillName, info.SkillType);
